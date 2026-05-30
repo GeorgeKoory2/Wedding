@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="theme-color" content="#c9a84c"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <title>Mike & Zuka ✦ Wedding</title>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/main.css"/>
+</head>
+<body class="home-page">
+  <div class="grain-overlay"></div>
+
+  <!-- Decorative SVG layer -->
+  <div class="deco-layer" aria-hidden="true">
+
+    <!-- TOP-LEFT rose branch -->
+    <svg class="deco-rose deco-tl" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.18">
+        <!-- stem -->
+        <path d="M30 260 Q60 180 100 120 Q130 70 160 30" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+        <!-- leaves -->
+        <path d="M70 195 Q45 165 55 140 Q80 160 70 195Z" fill="#b8a060" opacity="0.6"/>
+        <path d="M95 150 Q125 135 130 110 Q105 125 95 150Z" fill="#b8a060" opacity="0.6"/>
+        <path d="M55 230 Q30 215 35 195 Q55 205 55 230Z" fill="#b8a060" opacity="0.5"/>
+        <!-- rose bloom top -->
+        <circle cx="163" cy="27" r="16" fill="#d4a0a0" opacity="0.5"/>
+        <ellipse cx="163" cy="22" rx="9" ry="6" fill="#c08888" opacity="0.6" transform="rotate(-15 163 22)"/>
+        <ellipse cx="170" cy="27" rx="8" ry="5" fill="#c08888" opacity="0.5" transform="rotate(20 170 27)"/>
+        <ellipse cx="156" cy="29" rx="7" ry="5" fill="#c08888" opacity="0.5" transform="rotate(-30 156 29)"/>
+        <circle cx="163" cy="27" r="5" fill="#b07070" opacity="0.7"/>
+        <!-- small bud on branch -->
+        <circle cx="105" cy="118" r="8" fill="#d4a0a0" opacity="0.35"/>
+        <ellipse cx="105" cy="115" rx="5" ry="3.5" fill="#c08888" opacity="0.4" transform="rotate(-10 105 115)"/>
+      </g>
+    </svg>
+
+    <!-- TOP-RIGHT rose branch (mirrored) -->
+    <svg class="deco-rose deco-tr" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.18">
+        <path d="M190 260 Q160 180 120 120 Q90 70 60 30" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+        <path d="M150 195 Q175 165 165 140 Q140 160 150 195Z" fill="#b8a060" opacity="0.6"/>
+        <path d="M125 150 Q95 135 90 110 Q115 125 125 150Z" fill="#b8a060" opacity="0.6"/>
+        <path d="M165 230 Q190 215 185 195 Q165 205 165 230Z" fill="#b8a060" opacity="0.5"/>
+        <circle cx="57" cy="27" r="16" fill="#d4a0a0" opacity="0.5"/>
+        <ellipse cx="57" cy="22" rx="9" ry="6" fill="#c08888" opacity="0.6" transform="rotate(15 57 22)"/>
+        <ellipse cx="50" cy="27" rx="8" ry="5" fill="#c08888" opacity="0.5" transform="rotate(-20 50 27)"/>
+        <ellipse cx="64" cy="29" rx="7" ry="5" fill="#c08888" opacity="0.5" transform="rotate(30 64 29)"/>
+        <circle cx="57" cy="27" r="5" fill="#b07070" opacity="0.7"/>
+        <circle cx="115" cy="118" r="8" fill="#d4a0a0" opacity="0.35"/>
+        <ellipse cx="115" cy="115" rx="5" ry="3.5" fill="#c08888" opacity="0.4" transform="rotate(10 115 115)"/>
+      </g>
+    </svg>
+
+    <!-- BOTTOM rose sprigs -->
+    <svg class="deco-rose deco-bl" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.14">
+        <path d="M10 120 Q50 80 100 50 Q130 35 150 10" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+        <path d="M55 90 Q35 70 45 50 Q65 68 55 90Z" fill="#b8a060" opacity="0.6"/>
+        <path d="M90 65 Q110 50 115 30 Q95 42 90 65Z" fill="#b8a060" opacity="0.6"/>
+        <circle cx="152" cy="9" r="12" fill="#d4a0a0" opacity="0.45"/>
+        <ellipse cx="152" cy="5" rx="7" ry="4.5" fill="#c08888" opacity="0.55" transform="rotate(-10 152 5)"/>
+        <ellipse cx="158" cy="10" rx="6" ry="4" fill="#c08888" opacity="0.45" transform="rotate(18 158 10)"/>
+        <circle cx="152" cy="9" r="4" fill="#b07070" opacity="0.65"/>
+      </g>
+    </svg>
+
+    <svg class="deco-rose deco-br" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.14">
+        <path d="M150 120 Q110 80 60 50 Q30 35 10 10" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+        <path d="M105 90 Q125 70 115 50 Q95 68 105 90Z" fill="#b8a060" opacity="0.6"/>
+        <path d="M70 65 Q50 50 45 30 Q65 42 70 65Z" fill="#b8a060" opacity="0.6"/>
+        <circle cx="8" cy="9" r="12" fill="#d4a0a0" opacity="0.45"/>
+        <ellipse cx="8" cy="5" rx="7" ry="4.5" fill="#c08888" opacity="0.55" transform="rotate(10 8 5)"/>
+        <ellipse cx="2" cy="10" rx="6" ry="4" fill="#c08888" opacity="0.45" transform="rotate(-18 2 10)"/>
+        <circle cx="8" cy="9" r="4" fill="#b07070" opacity="0.65"/>
+      </g>
+    </svg>
+
+    <!-- Floating birds -->
+    <svg class="deco-bird bird-1" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.22">
+        <path d="M40 20 Q25 8 5 12 Q20 18 40 20Z" fill="#c9a84c"/>
+        <path d="M40 20 Q55 8 75 12 Q60 18 40 20Z" fill="#c9a84c"/>
+        <path d="M40 20 Q38 28 35 30 Q40 26 45 30 Q42 28 40 20Z" fill="#c9a84c" opacity="0.6"/>
+      </g>
+    </svg>
+    <svg class="deco-bird bird-2" viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.18">
+        <path d="M30 15 Q18 5 3 8 Q15 13 30 15Z" fill="#c9a84c"/>
+        <path d="M30 15 Q42 5 57 8 Q45 13 30 15Z" fill="#c9a84c"/>
+        <path d="M30 15 Q28 21 26 23 Q30 20 34 23 Q32 21 30 15Z" fill="#c9a84c" opacity="0.6"/>
+      </g>
+    </svg>
+    <svg class="deco-bird bird-3" viewBox="0 0 70 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.20">
+        <path d="M35 17 Q22 6 4 10 Q18 15 35 17Z" fill="#c9a84c"/>
+        <path d="M35 17 Q48 6 66 10 Q52 15 35 17Z" fill="#c9a84c"/>
+        <path d="M35 17 Q33 24 30 26 Q35 23 40 26 Q37 24 35 17Z" fill="#c9a84c" opacity="0.6"/>
+      </g>
+    </svg>
+
+    <!-- Scattered gold sparkle dots -->
+    <svg class="deco-sparkles" viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.12" fill="#c9a84c">
+        <circle cx="30"  cy="80"  r="1.5"/>
+        <circle cx="370" cy="140" r="1"/>
+        <circle cx="15"  cy="300" r="2"/>
+        <circle cx="385" cy="320" r="1.5"/>
+        <circle cx="50"  cy="500" r="1"/>
+        <circle cx="350" cy="480" r="2"/>
+        <circle cx="200" cy="60"  r="1.5"/>
+        <circle cx="180" cy="550" r="1"/>
+        <!-- thin cross sparkles -->
+        <path d="M80 200 v-6 M80 200 v6 M80 200 h-6 M80 200 h6" stroke="#c9a84c" stroke-width=".8" opacity="0.8"/>
+        <path d="M320 250 v-5 M320 250 v5 M320 250 h-5 M320 250 h5" stroke="#c9a84c" stroke-width=".8" opacity="0.8"/>
+        <path d="M60 420 v-4 M60 420 v4 M60 420 h-4 M60 420 h4" stroke="#c9a84c" stroke-width=".7" opacity="0.7"/>
+        <path d="M340 400 v-5 M340 400 v5 M340 400 h-5 M340 400 h5" stroke="#c9a84c" stroke-width=".8" opacity="0.8"/>
+      </g>
+    </svg>
+
+  </div><!-- /deco-layer -->
+
+  <main class="home-main">
+    <header class="hero">
+      <div class="ornament top-ornament">— ✦ —</div>
+      <p class="hero-eyebrow">Celebrate with us!</p>
+      <h1 class="hero-title">
+        <span class="name bride">Mike</span>
+        <span class="ampersand">&amp;</span>
+        <span class="name groom">Zuka</span>
+      </h1>
+      <div class="hero-divider">
+        <span class="hero-divider-line"></span>
+        <svg class="hero-divider-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4C9 4 6 6.5 6 9.5c0 4.5 6 10.5 6 10.5s6-6 6-10.5C18 6.5 15 4 12 4z" fill="currentColor" opacity="0.9"/>
+        </svg>
+        <span class="hero-divider-line"></span>
+      </div>
+      <p class="hero-subtitle">Share your memories with us</p>
+    </header>
+
+    <section class="action-grid">
+      <a href="/camera" class="action-card camera-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 14l4-6h8l4 6h6a2 2 0 012 2v20a2 2 0 01-2 2H10a2 2 0 01-2-2V16a2 2 0 012-2h6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="24" cy="26" r="6" stroke="currentColor" stroke-width="2"/>
+            <circle cx="24" cy="26" r="2.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="card-label">Camera</span>
+        <span class="card-hint">Take a photo or video</span>
+      </a>
+
+      <a href="/upload" class="action-card upload-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 32V16M24 16l-6 6M24 16l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 34a8 8 0 01-1.6-15.84A12 12 0 1134 24h2a6 6 0 010 12H12z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="card-label">Upload</span>
+        <span class="card-hint">Share from your camera roll</span>
+      </a>
+    </section>
+
+    <p class="privacy-note">
+      Your photos and videos are private —<br/>only viewable by the couple.
+    </p>
+
+    <footer class="home-footer">
+      <p>With love &amp; gratitude ✦</p>
+      <div class="signature-wrap" id="sigWrap">
+        <span class="signature-by">by</span>
+        <div class="sig-hold-wrap">
+          <svg class="sig-progress" viewBox="0 0 44 44" id="sigRing">
+            <circle cx="22" cy="22" r="20" stroke="transparent" stroke-width="2" fill="none"/>
+            <circle cx="22" cy="22" r="20" class="sig-ring-track" stroke-width="2" fill="none"
+                    stroke-dasharray="125.6" stroke-dashoffset="125.6" id="sigRingFill"/>
+          </svg>
+          <img src="/static/img/signature.png" alt="" class="home-signature" id="sigImg"
+               draggable="false" oncontextmenu="return false"/>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/static/js/main.js"></script>
+  <script>
+    (function() {
+      var el = document.getElementById('sigImg');
+      var ring = document.getElementById('sigRingFill');
+      var HOLD = 7000;
+      var timer = null, start = null, raf = null;
+
+      function tick() {
+        var pct = Math.min((Date.now() - start) / HOLD, 1);
+        var offset = 125.6 * (1 - pct);
+        ring.style.strokeDashoffset = offset;
+        if (pct < 1) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          cancel();
+          window.location.href = '/gallery';
+        }
+      }
+
+      function begin(e) {
+        e.preventDefault();
+        if (timer) return;
+        start = Date.now();
+        ring.style.stroke = 'var(--gold)';
+        raf = requestAnimationFrame(tick);
+      }
+
+      function cancel() {
+        if (raf) cancelAnimationFrame(raf);
+        raf = null; timer = null; start = null;
+        ring.style.strokeDashoffset = 125.6;
+        ring.style.stroke = 'transparent';
+      }
+
+      el.addEventListener('mousedown', begin);
+      el.addEventListener('touchstart', begin, {passive: false});
+      el.addEventListener('mouseup', cancel);
+      el.addEventListener('mouseleave', cancel);
+      el.addEventListener('touchend', cancel);
+      el.addEventListener('touchcancel', cancel);
+    })();
+  </script>
+</body>
+</html>
