@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block title %}Your Memories{% endblock %}
+
+{% block extra_head %}
+<style>
+  .my-empty {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .my-empty a {
+    display: inline-block;
+    margin-top: 18px;
+    font-style: normal;
+    font-family: var(--font-body);
+    font-size: .78rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--gold-pale);
+    padding-bottom: 2px;
+  }
+</style>
+{% endblock %}
+
+{% block nav %}
+<nav class="top-nav">
+  <a href="/" class="nav-logo">M & Z</a>
+  <span id="myCount" class="nav-count"></span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">Your Memories</h2>
+  <p class="page-sub">Everything you've shared with us</p>
+</div>
+
+<div class="gallery-grid" id="myGrid">
+  <div class="gallery-loading" id="myLoading">
+    <div class="loading-ring"></div>
+    <p>Loading your memories…</p>
+  </div>
+</div>
+
+<p class="my-empty" id="myEmpty" style="display:none">
+  You haven't uploaded any memories yet.<br/>
+  <a href="/upload">Share your first photo or video →</a>
+</p>
+
+<!-- Lightbox (same as gallery) -->
+<div class="lightbox" id="lightbox" style="display:none" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-prev" onclick="lbNav(-1)">‹</button>
+  <button class="lb-next" onclick="lbNav(1)">›</button>
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <img id="lbImg" style="display:none"/>
+    <video id="lbVideo" controls style="display:none"></video>
+    <div class="lb-info">
+      <span id="lbDate"></span>
+      <span id="lbSize"></span>
+    </div>
+    <div class="lb-actions">
+      <a id="lbDownload" href="#" download class="lb-btn-download">⤓ Download</a>
+      <button id="lbDelete" class="lb-btn-delete" onclick="event.stopPropagation();deleteCurrentItem()">🗑 Delete</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  const deviceId = (function() {
+    let id = localStorage.getItem('wedding_device_id');
+    if (!id) { id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,9); localStorage.setItem('wedding_device_id', id); }
+    return id;
+  })();
+
+  let items = [], lbIndex = 0;
+
+  async function load() {
+    const res  = await fetch(`/api/my-memories?device_id=${encodeURIComponent(deviceId)}&limit=100`);
+    const data = await res.json();
+    items = data.items || [];
+
+    document.getElementById('myLoading').style.display = 'none';
+
+    if (!items.length) {
+      document.getElementById('myEmpty').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('myCount').textContent = `${items.length} memor${items.length !== 1 ? 'ies' : 'y'}`;
+
+    const grid = document.getElementById('myGrid');
+    grid.innerHTML = '';
+    items.forEach((item, idx) => {
+      const tile = document.createElement('div');
+      tile.className = 'gallery-tile';
+      tile.onclick = () => openLb(idx);
+      if (item.media_type === 'image') {
+        tile.innerHTML = `<img src="${item.url}" loading="lazy"/>`;
+      } else {
+        tile.innerHTML = `<video src="${item.url}" preload="metadata" muted playsinline></video><div class="tile-video-badge">▶</div>`;
+      }
+      grid.appendChild(tile);
+    });
+  }
+
+  function openLb(idx) {
+    lbIndex = idx;
+    renderLb();
+    document.getElementById('lightbox').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderLb() {
+    const item = items[lbIndex];
+    const img  = document.getElementById('lbImg');
+    const vid  = document.getElementById('lbVideo');
+    const dl   = document.getElementById('lbDownload');
+    const date = document.getElementById('lbDate');
+    const size = document.getElementById('lbSize');
+    document.getElementById('lbDelete').dataset.id = item.id;
+    vid.pause();
+    if (item.media_type === 'image') {
+      img.src = item.url; img.style.display = 'block'; vid.style.display = 'none'; vid.src = '';
+    } else {
+      vid.src = item.url; vid.style.display = 'block'; img.style.display = 'none';
+    }
+    dl.href = item.url;
+    date.textContent = item.upload_time ? item.upload_time.slice(0,10) : '';
+    size.textContent = item.file_size || '';
+  }
+
+  window.closeLightbox = function(e) {
+    if (e && e.target !== document.getElementById('lightbox')) return;
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('lbVideo').pause();
+  };
+  window.lbNav = function(dir) {
+    lbIndex = (lbIndex + dir + items.length) % items.length;
+    renderLb();
+  };
+
+  async function deleteCurrentItem() {
+    const btn = document.getElementById('lbDelete');
+    const id  = btn.dataset.id;
+    if (!id) return;
+    if (!confirm('Delete this from your memories? This cannot be undone.')) return;
+    btn.disabled = true;
+    btn.textContent = 'Deleting…';
+    try {
+      const res = await fetch(`/gallery/delete/${id}`, { method: 'POST', credentials: 'same-origin' });
+      if (!res.ok) throw new Error();
+      items.splice(lbIndex, 1);
+      const grid = document.getElementById('myGrid');
+      grid.querySelectorAll('.gallery-tile')[lbIndex]?.remove();
+      const count = items.length;
+      document.getElementById('myCount').textContent = `${count} memor${count !== 1 ? 'ies' : 'y'}`;
+      if (!items.length) {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = '';
+        document.getElementById('myEmpty').style.display = 'block';
+      } else {
+        lbIndex = Math.min(lbIndex, items.length - 1);
+        renderLb();
+      }
+    } catch {
+      alert('Could not delete. Please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🗑 Delete';
+    }
+  }
+
+  load();
+})();
+</script>
+{% endblock %}
