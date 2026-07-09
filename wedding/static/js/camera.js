@@ -9,6 +9,11 @@ let capturedBlob = null;
 let facingMode   = 'environment';
 let recordTimer  = null;
 let recordStart  = null;
+let mirrorX      = false;   // horizontal flip toggle
+let renderCanvas = null;
+let renderCtx    = null;
+let renderRAF    = null;
+let recordStream = null;
 
 const feed      = document.getElementById('cameraFeed');
 const canvas    = document.getElementById('captureCanvas');
@@ -34,6 +39,7 @@ async function startCamera() {
     await feed.play();
     setStatus(currentMode === 'photo' ? 'Tap shutter to capture' : 'Tap to start recording');
     document.getElementById('flipBtn').style.display = '';
+    applyMirrorPreview();
   } catch (err) {
     console.error('Camera error', err);
     showPermError();
@@ -73,7 +79,13 @@ function takePhoto() {
   canvas.width  = w;
   canvas.height = h;
   const ctx = canvas.getContext('2d');
+  ctx.save();
+  if (mirrorX) {
+    ctx.translate(w, 0);
+    ctx.scale(-1, 1);
+  }
   ctx.drawImage(feed, 0, 0, w, h);
+  ctx.restore();
   canvas.toBlob(blob => {
     capturedBlob = blob;
     showPhotoPreview(URL.createObjectURL(blob));
@@ -84,6 +96,7 @@ function takePhoto() {
 function startRecording() {
   if (!stream) return;
   recordedChunks = [];
+  recordStream = getRecordStream();
   const opts = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
     ? { mimeType: 'video/webm;codecs=vp9' }
     : MediaRecorder.isTypeSupported('video/webm')
@@ -91,9 +104,9 @@ function startRecording() {
     : {};
 
   try {
-    mediaRecorder = new MediaRecorder(stream, opts);
+    mediaRecorder = new MediaRecorder(recordStream, opts);
   } catch {
-    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder = new MediaRecorder(recordStream);
   }
 
   mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
@@ -119,11 +132,48 @@ function stopRecording() {
 }
 
 function finishRecording() {
+  stopRenderLoop();
   const mimeType = recordedChunks[0]?.type || 'video/webm';
   const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
   capturedBlob = new Blob(recordedChunks, { type: mimeType });
   capturedBlob._ext = ext;
   showVideoPreview(URL.createObjectURL(capturedBlob));
+}
+
+// ── Mirrored recording stream ───────────────────────────────────────
+function getRecordStream() {
+  if (!mirrorX) return stream;
+
+  const w = feed.videoWidth  || 1280;
+  const h = feed.videoHeight || 720;
+  renderCanvas = document.createElement('canvas');
+  renderCanvas.width  = w;
+  renderCanvas.height = h;
+  renderCtx = renderCanvas.getContext('2d');
+
+  const draw = () => {
+    renderCtx.save();
+    renderCtx.translate(w, 0);
+    renderCtx.scale(-1, 1);
+    renderCtx.drawImage(feed, 0, 0, w, h);
+    renderCtx.restore();
+    renderRAF = requestAnimationFrame(draw);
+  };
+  draw();
+
+  const canvasStream = renderCanvas.captureStream(30);
+  stream.getAudioTracks().forEach(t => canvasStream.addTrack(t));
+  return canvasStream;
+}
+
+function stopRenderLoop() {
+  if (renderRAF) {
+    cancelAnimationFrame(renderRAF);
+    renderRAF = null;
+  }
+  renderCanvas = null;
+  renderCtx = null;
+  recordStream = null;
 }
 
 function updateRecordTime() {
@@ -213,6 +263,16 @@ async function uploadCapture() {
 function flipCamera() {
   facingMode = facingMode === 'environment' ? 'user' : 'environment';
   startCamera();
+}
+
+function toggleMirror() {
+  mirrorX = !mirrorX;
+  document.getElementById('mirrorBtn').classList.toggle('active', mirrorX);
+  applyMirrorPreview();
+}
+
+function applyMirrorPreview() {
+  feed.style.transform = mirrorX ? 'scaleX(-1)' : 'scaleX(1)';
 }
 
 function flashViewfinder() {
